@@ -1,11 +1,7 @@
 {
     "auto_last": true,
-    "baudrate": 9,
     "end_char": 3,
-    "format": 6,
-    "last_port": 1,
-    "skin_mode": "Classic",
-    "temp_ports_list": [
-        "COM7"
-    ]
+    "last_port": 0,
+    "skin_mode": "MaterialDark",
+    "temp_ports_list": []
 }
