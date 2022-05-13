@@ -25,7 +25,6 @@ class Serial_Thread(threading.Thread, QObject):
         text = b""
         self.isRunning = True
         
-        
         while self.isRunning:
             self.serial_manager.read_lock.acquire()
             if self.ser.isOpen():
@@ -63,7 +62,7 @@ class Serial_Thread(threading.Thread, QObject):
                         temp = b""
                 
                 if self.jump_last:
-                    self.jump_sig.emit()   
+                    self.jump_sig.emit() 
         print("串口打印线程被终止")    
 
 
@@ -85,7 +84,7 @@ class Serial_Manager(QObject):
         super().__init__()
         self.ser = serial.Serial()
         self.ser.baudrate = 115200
-        self.ser.timeout = 0.005
+        self.ser.timeout = 0
         self.read_lock = threading.Lock()
         self.write_lock = threading.Lock() 
         self.end_char = b""
