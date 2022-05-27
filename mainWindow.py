@@ -20,12 +20,16 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QLabel,
     QLineEdit, QMainWindow, QMenu, QMenuBar,
     QPushButton, QRadioButton, QSizePolicy, QSpacerItem,
     QStatusBar, QTextBrowser, QVBoxLayout, QWidget)
+import rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(545, 455)
+        MainWindow.resize(545, 441)
+        icon = QIcon()
+        icon.addFile(u":/ROOT/1.ico", QSize(), QIcon.Normal, QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         self.Default = QAction(MainWindow)
         self.Default.setObjectName(u"Default")
         self.Exit = QAction(MainWindow)

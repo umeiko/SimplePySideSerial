@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>串口助手</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="rc.qrc">
+    <normaloff>:/ROOT/1.ico</normaloff>:/ROOT/1.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -622,7 +626,9 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="rc.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>Exit</sender>
