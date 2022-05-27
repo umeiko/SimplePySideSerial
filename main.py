@@ -87,6 +87,13 @@ def bind_methods():
     shortcut = QShortcut(w)
     shortcut.setKey(u'Return')
     shortcut.activated.connect(func_for_send_serial_msg)
+    shortcut_TAB = QShortcut(w)
+    shortcut_TAB.setKey(u'Tab')
+    shortcut_TAB.activated.connect(func_for_auto_complete)
+    shortcut_Break = QShortcut(w)
+    shortcut_Break.setKey(u'Ctrl+B')
+    shortcut_Break.activated.connect(func_for_break)
+
     main_window.Sending.clicked.connect(func_for_send_serial_msg)
     main_window.Clear.clicked.connect(main_window.recv_Text.clear)
     main_window.AutoLast.toggled.connect(func_jump_to_last_line)
@@ -216,7 +223,18 @@ def func_for_change_baudrate(Qaction):
     Qaction.setChecked(True)
     serial_manager.set_baudrate(int(Qaction.text()))
     global_options["baudrate"] = main_window.baudrates.index(Qaction)
-    
+
+def func_for_auto_complete(*args):
+    '''命令行代码补全函数'''
+    global serial_manager
+    msg = main_window.sendingTextEdit.text()
+    serial_manager.ser.write(msg.encode()+b"\t")
+    main_window.sendingTextEdit.clear()  
+
+def func_for_break(*args):
+    '''Ctrl+B 函数'''
+    global serial_manager
+    serial_manager.ser.write(b"\r\x03\x03")
 
 def func_for_change_format(Qaction):
     [i.setChecked(False) for i in main_window.formats]

@@ -3,10 +3,9 @@
     "baudrate": 9,
     "end_char": 3,
     "format": 6,
-    "last_port": 2,
-    "skin_mode": "MaterialDark",
+    "last_port": 1,
+    "skin_mode": "Classic",
     "temp_ports_list": [
-        "COM1",
-        "COM6"
+        "COM3"
     ]
 }
