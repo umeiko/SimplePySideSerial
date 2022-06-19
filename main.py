@@ -105,7 +105,7 @@ def bind_methods():
     main_window.style_dark.triggered.connect(lambda: change_style("MaterialDark"))
     main_window.style_classic.triggered.connect(lambda: change_style("Classic"))
     
-    serial_thread.text_sig.connect(Cursor.insertText)
+    serial_thread.text_sig.connect(func_highlightRecvText)
     serial_thread.jump_sig.connect(func_jump_to_last_line)
 
 
@@ -147,6 +147,13 @@ def func_for_select_port(*args):
         serial_manager.close_port()
     global_options["last_port"] = index
     print(index)
+
+def func_highlightRecvText(text:str, isHtml:bool=False):
+    """高亮显示接收到的信息"""
+    if isHtml:
+        Cursor.insertHtml(text)
+    else:
+        Cursor.insertText(text)
 
 def func_for_select_end_char(*args):
     '''串口监视器选择结束符的函数'''

@@ -5,13 +5,13 @@ import serial.tools.list_ports
 from PySide6.QtCore import Signal, QObject
 from PySide6.QtGui import QTextCursor
 from typing import Union
-import time
 
 
+css = '<style type="text/css"> .r { color: #FF0000 } .g { color: #00FF00}</style>'
 class Serial_Thread(threading.Thread, QObject):
     """串口调试助手的收信线程"""
     jump_sig = Signal()
-    text_sig = Signal(str)
+    text_sig = Signal(str, bool)
     def __init__(self, ser_manager):
         threading.Thread.__init__(self)
         QObject.__init__(self)
@@ -39,10 +39,16 @@ class Serial_Thread(threading.Thread, QObject):
                 text = b""
                 try:  # 解决汉字等二进制转换的问题
                     decode_str = temp.decode(encoding="utf-8")
-                    for k, i in enumerate(decode_str):
-                        if i in "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x0e\x0f":
-                            decode_str = decode_str[:k] + "\\x" + temp[k:k+1].hex() + decode_str[k+1:]
-                    self.text_sig.emit(decode_str)
+                    if decode_str in "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x0e\x0f":
+                        decode_str = "\\x" + decode_str.hex()
+                        decode_str = f'{css}<span class="r">{decode_str}</span>'
+                        self.text_sig.emit(decode_str,  True)
+                    else:
+                        if decode_str in "\r\n\t<> ":
+                            self.text_sig.emit(decode_str, False)
+                        else:
+                            decode_str = f'<span>{decode_str}</span>'
+                            self.text_sig.emit(decode_str, True)
                     temp = b""
                 
                 except BaseException as e:
@@ -52,13 +58,15 @@ class Serial_Thread(threading.Thread, QObject):
                             decode_str = ""
                             for k, _ in enumerate(temp):
                                 decode_str += "\\x" + temp[k:k+1].hex()
-                            self.text_sig.emit(decode_str)
+                            decode_str = f'{css}<span class="r">{decode_str}</span>'
+                            self.text_sig.emit(decode_str,True)
                             temp = b""
                     else:
                         decode_str = ""
                         for k, _ in enumerate(temp):
                             decode_str += "\\x" + temp[k:k+1].hex()
-                        self.text_sig.emit(decode_str)
+                        decode_str = f'{css}<span class="r">{decode_str}</span>'
+                        self.text_sig.emit(decode_str,True)
                         temp = b""
                 
                 if self.jump_last:
