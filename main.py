@@ -234,14 +234,16 @@ def func_for_change_baudrate(Qaction):
 def func_for_auto_complete(*args):
     '''命令行代码补全函数'''
     global serial_manager
-    msg = main_window.sendingTextEdit.text()
-    serial_manager.ser.write(msg.encode()+b"\t")
-    main_window.sendingTextEdit.clear()  
+    if serial_manager.ser.isOpen():
+        msg = main_window.sendingTextEdit.text()
+        serial_manager.ser.write(msg.encode()+b"\t")
+        main_window.sendingTextEdit.clear()  
 
 def func_for_break(*args):
     '''Ctrl+B 函数'''
     global serial_manager
-    serial_manager.ser.write(b"\r\x03\x03")
+    if serial_manager.ser.isOpen():
+        serial_manager.ser.write(b"\r\x03\x03")
 
 def func_for_change_format(Qaction):
     [i.setChecked(False) for i in main_window.formats]

@@ -32,6 +32,7 @@ class Serial_Thread(threading.Thread, QObject):
                     text = self.ser.read()
                 except BaseException as e:
                     self.serial_manager.port_erro_signal.emit("From Thread:"+str(e))
+                    self.ser.close()
             self.serial_manager.read_lock.release()
 
             if text:
