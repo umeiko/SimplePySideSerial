@@ -1,6 +1,5 @@
-from concurrent.futures import thread
 from mainWindow import Ui_MainWindow
-import Serial_Core
+import serial_core
 from PySide6.QtGui import QIcon, QShortcut
 from PySide6.QtWidgets import QApplication, QMainWindow, QDialog
 import sys
@@ -52,8 +51,8 @@ main_window.formats = [
     main_window.action8O1,
     main_window.action8O2,
 ]
-serial_manager = Serial_Core.Serial_Manager()
-serial_thread = Serial_Core.Serial_Thread(serial_manager)
+serial_manager = serial_core.Serial_Manager()
+serial_thread = serial_core.Serial_Thread(serial_manager)
 Cursor = main_window.recv_Text.textCursor()
 
 global_options = {
